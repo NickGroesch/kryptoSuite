@@ -1,0 +1,15 @@
+{% if alphabets %}
+<ul>
+    {% for alph in alphabets %}
+    <li>{{alph.name}}
+        <ul>
+            <li>{{alph.alphabet_text}}</li>
+            <li>{{alph.pub_date}}</li>
+
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No alphabets are available.</p>
+{% endif %}
