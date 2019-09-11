@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>decrytion page</title>
 </head>
 
 <body>
@@ -15,16 +15,16 @@
     <form action={% url 'cipher:decrypted'  %} method="post">
         {% csrf_token %}
         <label for='alphabet'>Alphabet</label>
-        <input type="text" name="alphabet" id="" value={{alphabet}}>
+        <input type="text" name="alphabet" id="" value='{{alphabet}}'>
         <label for='ciphertext'>Ciphertext</label>
-        <input type="text" name="ciphertext" id="">
+        <input type="text" name="ciphertext" id="" value='{{ciphertext}}'>
         <label for='key'>Key</label>
-        <input type="text" name="key" id="">
+        <input type="text" name="key" id="" value='{{key}}'>
         <input type="submit" value="Decrypt">
     </form>
 
     {% block answer %}
-    <p>where is the answer?</p>
+    <p>if you press the button we'll encode that</p>
     {% endblock %}
 </body>
 

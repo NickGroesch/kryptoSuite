@@ -3,7 +3,12 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import Alphabet, CipherText, Keyword
 from django.urls import reverse
 from .scripts import ceaser
+import sys
 # from django.template import loader
+
+
+def clg(x):
+    sys.stderr.write(x, '\n')
 
 
 def index(request):
@@ -25,10 +30,16 @@ def decrypter(request):
 
 
 def decrypt(request):
-    print(request.POST)
+    # clg(request.POST['ciphertext'])
     doit = ceaser.encodeCeaser
     plaintext = doit(request.POST['key'], request.POST['ciphertext'])
-    context = {'alphabet': request.POST['alphabet'], 'plaintext': plaintext}
+    context = {
+        'alphabet': request.POST['alphabet'],
+        'ciphertext': request.
+        POST['ciphertext'],  #this only returns the first word in the string
+        'key': request.POST['key'],
+        'plaintext': plaintext,
+    }
     # return HttpResponseRedirect("you done decrypted it:")
     return render(request, 'decrypter/answer.html', context)
     # return HttpResponse(
