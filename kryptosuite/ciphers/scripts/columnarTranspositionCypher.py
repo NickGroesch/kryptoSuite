@@ -12,7 +12,6 @@ def encodeColTransCy(
     keynum = getAlphabetialOrder(key)
     length = max(keynum) + 1
     ciphertext = [''] * length
-    #need to get this sorted in alpabetical
     for index, letter in enumerate(message):
         column = index % len(keynum)
         ciphertext[keynum[column]] += letter
@@ -20,24 +19,48 @@ def encodeColTransCy(
     return "".join(ciphertext)
 
 
-def decodeColTransCy(message, key):  #TODO: obviously
+def decodeColTransCy(message, key):
+    import math
     keynum = getAlphabetialOrder(key)
     length = max(keynum) + 1
+    keyLen = len(keynum)
     mesLen = len(message)
-    print(length, len(keynum), keynum, mesLen)
-    columns = [''] * len(keynum)
-    column = 0
-    row = 0
-    for index, char in enumerate(message):
-        keyindex = keynum[index % len(keynum)]
-        columns[keyindex] += char
-
-        # columns[column] += char
-        # column += 1
-        # if column == len(keynum):
-        #     column = 0
-        #     row += 1
-    print(columns)
+    print('a', length, keyLen, keynum, mesLen)
+    rows = []
+    rowLen = int(math.floor(mesLen / keyLen))
+    fatRows = mesLen - (rowLen * keyLen)
+    print('b', rowLen, fatRows)
+    goalLengths = []
+    counts = []
+    for i in range(length):  #TODO: refactor these into list comprehensions
+        counts.append(keynum.count(i))
+    for index, count in enumerate(counts):
+        # print(index, count)
+        goalLengths.append(count * rowLen)
+    for i in range(fatRows):
+        goalLengths[keynum[i]] += 1
+    print('c', goalLengths)
+    divisonCounter = 0
+    for i in range(len(counts)):
+        rows.append(message[divisonCounter:divisonCounter + goalLengths[i]])
+        divisonCounter += goalLengths[i]
+    print('d', rows, len(rows))
+    print('e', counts, len(counts))
+    reconstructionCounter = [0 for row in rows]
+    print(reconstructionCounter)
+    decoded = ''
+    for i in range(rowLen + 1):  #ÄHHHH
+        for j, k in enumerate(keynum):
+            print(i, j, k)
+            if rows[k][reconstructionCounter[k]]:
+                print(rows[k][reconstructionCounter[k]])
+                decoded += rows[k][reconstructionCounter[k]]
+                reconstructionCounter[k] += 1
+    #             keynum[j]][reconstructionCounter *
+    #                        counts[keynum[j]]:reconstructionCounter *
+    #                        counts[keynum[j]] + counts[keynum[j]]]
+    #     reconstructionCounter += 1
+    print(decoded)
 
 
 def getAlphabetialOrder(
@@ -59,6 +82,9 @@ def getAlphabetialOrder(
     return word
 
 
-print('the answer is of course: ',
-      encodeColTransCy('tc mkrwna os frtuhem ee antea nnaoc', 'artfully'))
+# print('encoded ', encodeColTransCy('abcdefghijklmnopqrstuvwxyz', 'abbc'))
+# decodeColTransCy('aeimquybcfgjknorsvwzdhlptx', "abbc")
+
+# print('encoded ',
+#       encodeColTransCy('there once was a man from nantucket', 'artfully'))
 decodeColTransCy('tc mkrwna os frtuhem ee antea nnaoc', "artfully")
